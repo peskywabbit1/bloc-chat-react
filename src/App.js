@@ -5,7 +5,6 @@ import * as firebase from 'firebase';
 import RoomList from './components/RoomList';
 
 
- src="https://www.gstatic.com/firebasejs/6.0.2/firebase-app.js"
   var firebaseConfig = {
     apiKey: "AIzaSyCElMHJJZ7XKkJqXnYtgRt4aOGdCZRgHyQ",
     authDomain: "bloc-chat-react-1222.firebaseapp.com",
@@ -15,11 +14,13 @@ import RoomList from './components/RoomList';
     messagingSenderId: "530788154608",
     appId: "1:530788154608:web:afffe7841721f2fc"
   };
-
 firebase.initializeApp(firebaseConfig);
 
 
 class App extends Component {
+  constructor(props) {
+    super(props)
+  }
   render () {
     return (
       <div className="App">
@@ -30,7 +31,7 @@ class App extends Component {
           <h1>Bloc Chat</h1>
         </header>
         <main>
-        Route exact path="/" component={RoomList} />
+        < Route exact path="/" component={RoomList} />
         </main>
       </div>
     );
