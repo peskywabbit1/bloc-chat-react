@@ -1,10 +1,9 @@
 import React, {Component} from 'react';
-import { Route, Link } from 'react-router-dom';
 import './App.css';
 import * as firebase from 'firebase';
 import RoomList from './components/RoomList';
 
-
+  // Your web app's Firebase configuration
   var firebaseConfig = {
     apiKey: "AIzaSyCElMHJJZ7XKkJqXnYtgRt4aOGdCZRgHyQ",
     authDomain: "bloc-chat-react-1222.firebaseapp.com",
@@ -12,26 +11,31 @@ import RoomList from './components/RoomList';
     projectId: "bloc-chat-react-1222",
     storageBucket: "bloc-chat-react-1222.appspot.com",
     messagingSenderId: "530788154608",
-    appId: "1:530788154608:web:afffe7841721f2fc"
+    appId: "1:530788154608:web:9cd6542aad303b0a"
   };
-firebase.initializeApp(firebaseConfig);
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
 
 
 class App extends Component {
   constructor(props) {
-    super(props)
+    super(props);
+    this.state = {
+      rooms: []
+    }
   }
-  render () {
+
+  render() {
     return (
       <div className="App">
-        <header>
           <nav>
-            <Link to='/'>RoomList</Link>
+          <header>
+            <h1 className="App-title">Bloc Chat</h1>
+          </header>
+            <Link to='/roomslist'>Rooms</Link>
           </nav>
-          <h1>Bloc Chat</h1>
-        </header>
         <main>
-        < Route exact path="/" component={RoomList} />
+          <Route exact path="/" component{RoomsList} />
         </main>
       </div>
     );

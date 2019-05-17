@@ -13,11 +13,12 @@ class RoomList extends Component {
 //set up real-time event listeners for the database
 componentDidMount() {
   this.roomsRef.on('child_added', snapshot => {
-    console.log(snapshot);
+    const room = snapshot.val();
+    room.key = snapshot.key;
+    this.setState({ rooms: this.state.rooms.concat( room ) })
     });
   }
+
 }
-
-
 
 export default RoomList;
