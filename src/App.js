@@ -22,7 +22,7 @@ class App extends Component {
     super(props);
     this.state = {
       rooms: []
-    }
+    };
   }
 
   render() {
@@ -34,6 +34,7 @@ class App extends Component {
           </header>
           </nav>
         <main>
+           <RoomList firebase={firebase} />
         </main>
       </div>
     );

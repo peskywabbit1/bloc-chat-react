@@ -19,14 +19,24 @@ componentDidMount() {
     });
   }
 
-}
-
-render ()
+render () {
   return (
-  <section className='roomlist'>
-    this.state.rooms.map( (room) =>
-  </section>
-    );
+    <section>
+      <ul>
+        {
+          this.state.rooms.map(room =>
+            (
+              <li key={room.key}>
+                {room.name}
+              </li>
+              )
+            )
+          }
+          </ul>
+    </section>
+    )
+  }
+}
 
 
 export default RoomList;
