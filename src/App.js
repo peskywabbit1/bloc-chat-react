@@ -32,10 +32,8 @@ class App extends Component {
           <header>
             <h1 className="App-title">Bloc Chat</h1>
           </header>
-            <Link to='/roomslist'>Rooms</Link>
           </nav>
         <main>
-          <Route exact path="/" component{RoomsList} />
         </main>
       </div>
     );

@@ -21,4 +21,12 @@ componentDidMount() {
 
 }
 
+render ()
+  return (
+  <section className='roomlist'>
+    this.state.rooms.map( (room) =>
+  </section>
+    );
+
+
 export default RoomList;
