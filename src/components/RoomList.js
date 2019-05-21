@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
-import ReactDOM from 'react-dom';
+
+
+
 
 
 
@@ -8,13 +10,16 @@ class RoomList extends Component {
     super(props);
     this.state = {
       rooms: [],
+      name: "",
+      showFormNewRoom: false,
       newRoomName: ""
+      //setActiveRoom: this.props.setActiveRoom
     }
     this.roomsRef = this.props.firebase.database().ref('rooms');
-
-    this.createRoom = this.createRoom.bind(this);
+    //this.handleSetRoom = this.handleSetRoom.bind(this);
+    this.createRoomSubmit = this.createRoomSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.handleCreateRoomSubmit = this.handleCreateRoomSubmit.bind(this);
+    //this.handleCreateRoomSubmit = this.handleCreateRoomSubmit.bind(this);
   }
 //set up real-time event listeners for the database
 componentDidMount() {
@@ -25,22 +30,50 @@ componentDidMount() {
     });
   }
 
-createRoom(newRoomName) {
-  let newRoom = {
-    name: newRoomName
-  };
+//createRoom(newRoomName) {
+//  let newRoom = {
+//    name: newRoomName
+//  };
   // Save to database
-  this.roomsRef.push(newRoom)
-  this.setState({newRoomName: " "});
-}
+//  this.roomsRef.push(newRoom)
+//  this.setState({newRoomName: ""});
+//}
 
 handleChange(event) {
-  this.setState({newRoomName: event.target.value});
+  this.setState({name: event.target.value});
 }
 
-handleCreateRoomSubmit(event) {
-  this.createRoom(this.state.newRoomName)
+createRoomSubmit(newRoomName) {
+  this.roomsRef.push({});
+  this.setState({name: ""});
+  this.setState ({ showFormNewRoom: false });
 }
+
+formRoomOpen (){
+  this.setState({showFormNewRoom: true});
+}
+
+formRoomClose(){
+  this.setState({showFormNewRoom: false});
+}
+
+showForm() {
+  if(this.state.showFormNewRoom) {
+    return (
+      <form id="newRoomForm">
+        <h3>Create a new Room</h3>
+      <input type="text" id="newRoomName" name="newRoomName" placeholder="Enter room name..." onChange={this.handleChange} value={this.state.name}></input>
+      </form>
+    )
+  }
+}
+
+//active room should be triggered by clicking on the name of the room in the  RoomList component.
+//handleSetRoom(e){
+  //let room = {name: e.target.innerText, id: e.target.id};
+
+//  this.props.setActiveRoom(room);
+//}
 
 render () {
   return (
@@ -49,7 +82,7 @@ render () {
         <ul>
           {
             this.state.rooms.map(room => (
-              <li key={room.key}>
+              <li key={room.key} id={room.key} name={room.name} onClick={this.createRoomSubmit}>
                 {room.name}
               </li>
               )
@@ -59,7 +92,7 @@ render () {
       </section>
       <form id="create-room">
         <input type="text" placeholder="Create a room..." name="room-name" value={this.state.newRoomName} onChange={this.handleChange} />
-        <button type="button" onClick={this.handleCreateRoomSubmit}>Submit</button>
+        <button type="button" onClick={this.createRoomSubmit}>Submit</button>
       </form>
     </div>
     )

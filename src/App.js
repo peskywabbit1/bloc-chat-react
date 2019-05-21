@@ -23,10 +23,15 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      rooms: [],
-      activeRoom: " "
+      activeRoom: '',
     };
+    this.setActiveRoom = this.setActiveRoom.bind(this);
   }
+
+setActiveRoom(room) {
+  this.setState({activeRoom: room});
+}
+
 
   render() {
     return (
@@ -37,8 +42,8 @@ class App extends Component {
           </header>
           </nav>
         <main>
-        <RoomList firebase={firebase} />
-        <MessageList firebase={firebase} />
+        <RoomList firebase={firebase} setActiveRoom = {this.setActiveRoom.bind(this)} />
+        <MessageList firebase={firebase} setActiveRoom = {this.state.activeRoom} />
         </main>
       </div>
     );
