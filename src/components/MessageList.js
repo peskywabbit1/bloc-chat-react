@@ -1,51 +1,52 @@
-import React, {Component} from 'react';
-
-
-
+import React, {Component} from 'react'
 
 class MessageList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      messages: [],
-      username: "",
-      content: "",
-      sentAt: "",
-      roomId: ""
+      messages:[],
+      newMessage: " ",
+      showMessages: " "
     }
+
     this.messagesRef = this.props.firebase.database().ref('messages');
-  }
-  //set up real time event listeners for the database
+  }//set up real time event listeners for the database
 componentDidMount() {
-  this.messagesRef.on('child_added', snapshot => {
-    const message = snapshot.val();
-    message.key = snapshot.key;
-    this.setState({ messages: this.state.messages.concat( message )}, //() => {
-    //  this.showMessages( this.props.activeRoom )
-  //  }
-  );
-    });
+    this.messagesRef.on('child_added', snapshot => { //to read message data
+      const message = snapshot.val();
+      message.key = snapshot.key;
+      this.setState( { messages: this.state.messages.concat( message )}, () => {
+        this.showMessages(this.props.activeRoom)
+        });
+      });
+    }
+
+createMessages(newMessage) { // to create new message data
+  this.messagesRef.push({
+    username: "Guest",
+    content: newMessage,
+    sentAt: this.props.firebase.database.ServerValue.TIMESTAMP,
+    roomId: this.props.activeRoom.key
+  });
   }
-//filter method by Id of Active Room props.activeRoom
-//  getMessagesForRoomId(room){
-    //room.id
 
-
-  render () {
-    const messages = this.state.messages.filter((message) => this.props.setActiveRoom.key === messages.roomId).map(
-      console.log('this is our stuff', this.props.setActiveRoom.key, this.message.roomId));
+  render() {
     return (
-    <table>
-      <tr className="message-data" key={this.timesRef.index}>
-        <td> className="msg-user">{this.message.username}</td>
-        <td> className="msg-content">{this.message.content}</td>
-        <td> className="timestamp">{this.message.sentAt}</td>
-      </tr>
-    </table>
-    )
+      <div>
+      <h3>{{this.props.activeRoom ? this.props.activeRoom.name : " "}}</h3>
+    <ul> {
+        this.state.newMessage.map( message => {
+      <li key={message.key}>
+          <div>{message.username}</div>
+          <div>{message.content}</div>
+          <div>{message.sentAt}</div>
+      </li>
+      }
+    )}
+    </ul>
+    </div>
+    );
   }
 }
-
-
 
 export default MessageList;
