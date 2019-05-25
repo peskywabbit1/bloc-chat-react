@@ -5,23 +5,23 @@ class MessageList extends Component {
     super(props);
     this.state = {
       messages:[],
-      newMessage: " ",
       showMessages: " "
     }
 
     this.messagesRef = this.props.firebase.database().ref('messages');
-  }//set up real time event listeners for the database
+    this.createMessages = this.createMessages.bind(this);
+  }
 componentDidMount() {
-    this.messagesRef.on('child_added', snapshot => { //to read message data
+    this.messagesRef.on('child_added', snapshot => {
       const message = snapshot.val();
       message.key = snapshot.key;
       this.setState( { messages: this.state.messages.concat( message )}, () => {
         this.showMessages(this.props.activeRoom)
-        });
       });
     }
 
-createMessages(newMessage) { // to create new message data
+
+createMessages(newMessage) {
   this.messagesRef.push({
     username: "Guest",
     content: newMessage,
@@ -33,9 +33,9 @@ createMessages(newMessage) { // to create new message data
   render() {
     return (
       <div>
-      <h3>{{this.props.activeRoom ? this.props.activeRoom.name : " "}}</h3>
+      <h3>{this.props.activeRoom ? this.props.activeRoom.name : " "}</h3>
     <ul> {
-        this.state.newMessage.map( message => {
+        this.state.messages.map( message => {
       <li key={message.key}>
           <div>{message.username}</div>
           <div>{message.content}</div>
