@@ -42,13 +42,14 @@ handleCreateRoomSubmit(event) {
 
 
 
+
 /*the active room should be highlighted and can be triggered by clicking on name of room in RoomList*/
 
 render () {
   return (
     <div>
     <div>{this.props.activeRoom}</div>
-      <section>
+      <section className="room-style">
         <ul>
           {
             this.state.rooms.map(room => (

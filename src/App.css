@@ -31,3 +31,6 @@
     transform: rotate(360deg);
   }
 }
+.room-style {
+  background-color: lightyellow;
+}

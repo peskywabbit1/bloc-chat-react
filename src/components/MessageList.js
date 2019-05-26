@@ -22,6 +22,7 @@ componentDidMount() {
   });
   }
 
+
     /*filter results by the ID of the active room*/
 createMessages(newMessage) {
   this.messagesRef.push({
@@ -38,7 +39,7 @@ render() {
     <div>
       <h3>{this.props.activeRoom ? this.props.activeRoom.name : " "}</h3>
     <ul> {
-        this.state.messages.map( message => {
+        this.state.messages.filter(message => message.id === this.props.activeRoom).map( message => {
       return (
         <li key={message.key}>
           <div>{message.username}</div>
