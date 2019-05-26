@@ -5,22 +5,24 @@ class MessageList extends Component {
     super(props);
     this.state = {
       messages:[],
-      showMessages: " "
-    }
+      activeRoomID: []
+
+  };
 
     this.messagesRef = this.props.firebase.database().ref('messages');
     this.createMessages = this.createMessages.bind(this);
   }
 componentDidMount() {
-    this.messagesRef.on('child_added', snapshot => {
-      const message = snapshot.val();
-      message.key = snapshot.key;
-      this.setState( { messages: this.state.messages.concat( message )}, () => {
-        this.showMessages(this.props.activeRoom)
-      });
-    }
+    this.messagesRef.on('child_added', snapshot => { /*snapshot is the data*/
+      const message = snapshot.val();/*value of text */
+      message.key = snapshot.key;/* snapshot.key is the data key */
+      this.setState({ messages: this.state.messages.concat( message )}, () => {
+        this.props.setActiveRoom(this.props.activeRoom);
+  });
+  });
+  }
 
-
+    /*filter results by the ID of the active room*/
 createMessages(newMessage) {
   this.messagesRef.push({
     username: "Guest",
@@ -30,18 +32,21 @@ createMessages(newMessage) {
   });
   }
 
-  render() {
-    return (
-      <div>
+
+render() {
+  return (
+    <div>
       <h3>{this.props.activeRoom ? this.props.activeRoom.name : " "}</h3>
     <ul> {
         this.state.messages.map( message => {
-      <li key={message.key}>
+      return (
+        <li key={message.key}>
           <div>{message.username}</div>
           <div>{message.content}</div>
           <div>{message.sentAt}</div>
+          <div>{message.roomId}</div>
       </li>
-      }
+    )}
     )}
     </ul>
     </div>

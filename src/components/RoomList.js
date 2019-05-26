@@ -30,6 +30,8 @@ createRoom(newRoomName) {
   this.setState({newRoomName: ""});
 }
 
+/*filterActiveRoomId ()*/
+
 handleChange(event) {
   this.setState({newRoomName: event.target.value}); //creating a room name
 }
@@ -38,22 +40,24 @@ handleCreateRoomSubmit(event) {
   this.createRoom(this.state.newRoomName)  //creating a new room for the new room name when clicking on submit button
 }
 
+
+
+/*the active room should be highlighted and can be triggered by clicking on name of room in RoomList*/
+
 render () {
-
   return (
-
     <div>
-    <div>{{this.props.activeRoom}}<div>
+    <div>{this.props.activeRoom}</div>
       <section>
         <ul>
-          {{
+          {
             this.state.rooms.map(room => (
                 <li key={room.key} onClick={()=> { this.props.setActiveRoom(room.key)}}>
                   {room.name}
                 </li>
                 )
               )
-            }}
+            }
             </ul>
       </section>
       <form id="create-room">

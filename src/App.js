@@ -27,7 +27,7 @@ class App extends Component {
   }
 
   setActiveRoom(roomId) {
-    this.setState({activeRoom:roomId})
+    this.setState({activeRoom:roomId});
   }
 
   render() {
@@ -40,7 +40,7 @@ class App extends Component {
           </nav>
         <main>
            <RoomList firebase={firebase} activeRoom={this.state.activeRoom} setActiveRoom={this.setActiveRoom.bind(this)}/>
-           <MessageList firebase={firebase} activeRoom={this.state.activeRoom}/>
+           <MessageList firebase={firebase} activeRoom={this.state.activeRoom} setActiveRoom= {this.setActiveRoom.bind(this)}/>
         </main>
       </div>
     );
