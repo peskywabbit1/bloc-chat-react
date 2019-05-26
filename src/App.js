@@ -22,7 +22,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeRoom: "1",
+      activeRoom: "",
     };
     this.setActiveRoom=this.setActiveRoom.bind(this);
   }
