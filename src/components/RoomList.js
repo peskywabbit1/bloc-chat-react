@@ -51,7 +51,7 @@ render () {
   /* RoomList page will go here*/
   return (
     <div className="roomlist">
-    <h3>Chat Rooms<h3>
+    <h3>Chat Rooms</h3>
       <section className="room-style">
         <ul>
           {
@@ -70,7 +70,7 @@ render () {
         <button type="button" onClick={this.props.activeRoom}>Submit</button>
       </form>
     </div>
-  }
+  )}
 }
 
 export default RoomList;
