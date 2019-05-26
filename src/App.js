@@ -24,6 +24,7 @@ class App extends Component {
     this.state = {
       activeRoom: "1",
     };
+    this.setActiveRoom=this.setActiveRoom.bind(this);
   }
 
   setActiveRoom(roomId) {
@@ -33,15 +34,11 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-          <nav>
           <header>
             <h1 className="App-title">Bloc Chat</h1>
+            <RoomList firebase={firebase} activeRoom={this.state.activeRoom} setActiveRoom={this.setActiveRoom.bind(this)}/>
+            <MessageList firebase={firebase} activeRoom={this.state.activeRoom} setActiveRoom= {this.setActiveRoom.bind(this)}/>
           </header>
-          </nav>
-        <main>
-           <RoomList firebase={firebase} activeRoom={this.state.activeRoom} setActiveRoom={this.setActiveRoom.bind(this)}/>
-           <MessageList firebase={firebase} activeRoom={this.state.activeRoom} setActiveRoom= {this.setActiveRoom.bind(this)}/>
-        </main>
       </div>
     );
   }

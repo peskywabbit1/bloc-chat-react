@@ -35,11 +35,13 @@ createMessages(newMessage) {
 
 
 render() {
+  /*MessageList page will go here*/
   return (
-    <div>
+    <div className="messagelist">
+
       <h3>{this.props.activeRoom ? this.props.activeRoom.name : " "}</h3>
     <ul> {
-        this.state.messages.filter(message => message.id === this.props.activeRoom).map( message => {
+        this.state.messages.filter(message => message.roomId === this.props.activeRoom).map( message => {
       return (
         <li key={message.key}>
           <div>{message.username}</div>
