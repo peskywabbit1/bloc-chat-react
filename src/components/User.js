@@ -8,12 +8,13 @@ class User extends Component {
     this.state = {
       newUser: ""
     }
-
+    this.handleClick=this.handleClick.bind(this)
   }
 handleClick() {
-   this.setState {
+   this.setState ()
   const provider = new this.props.firebase.auth.GoogleAuthProvider();
   this.props.firebase.auth().signInWithPopup( provider );
+
 }
 
 handleChange (event) {
