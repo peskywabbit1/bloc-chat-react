@@ -17,18 +17,8 @@ handleClick() {
    this.setState ()
    const provider = new this.props.firebase.auth.GoogleAuthProvider();
    this.props.firebase.auth().signInWithPopup( provider )
-   .then(function(result)
- {
-   let token = result.credential.accessToken;
-   let user = result.user;
- })
- .catch(function(error){
-   let errorCode = error.code;
-   let errorMessage = error.message;
-   let email = error.email;
-   let credential = error.credential;
- });
 }
+
 handleChange (event) {
   this.setState({user: event.target.value});
 }
@@ -58,7 +48,7 @@ componentDidMount() {
           Sign-Out
           </button>
       <section>
-      {this.props.user ? this.setUser : "Guest"}
+      {this.props.user ? this.props.setUser.displayName : "Guest"}
       </section>
       </div>
     )
