@@ -27,11 +27,19 @@ class App extends Component {
       user:""
     };
     this.setActiveRoom=this.setActiveRoom.bind(this);
+    this.setUser=this.setUser.bind(this);
   }
 
   setActiveRoom(roomId) {
-    this.setState({activeRoom:roomId});
+    this.setState({
+      activeRoom:roomId});
   }
+
+  setUser(user) {
+    this.setState ({
+      user:user
+    });
+    }
 
   render() {
     return (
@@ -40,7 +48,7 @@ class App extends Component {
             <h1 className="App-title">Bloc Chat</h1>
             <RoomList firebase={firebase} activeRoom={this.state.activeRoom} setActiveRoom={this.setActiveRoom.bind(this)}/>
             <MessageList firebase={firebase} activeRoom={this.state.activeRoom} setActiveRoom= {this.setActiveRoom.bind(this)}/>
-            <User firebase={firebase} activeRoom={this.state.activeRoom} setActiveRoom={this.setActiveRoom.bind(this)}/>
+            <User firebase={firebase} user={this.state.user} setUser={this.setUser.bind(this)}/>
           </header>
       </div>
     );

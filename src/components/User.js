@@ -16,24 +16,50 @@ class User extends Component {
 handleClick() {
    this.setState ()
    const provider = new this.props.firebase.auth.GoogleAuthProvider();
-   this.props.firebase.auth().signInWithPopup( provider );
+   this.props.firebase.auth().signInWithPopup( provider )
+   .then(function(result)
+ {
+   let token = result.credential.accessToken;
+   let user = result.user;
+ })
+ .catch(function(error){
+   let errorCode = error.code;
+   let errorMessage = error.message;
+   let email = error.email;
+   let credential = error.credential;
+ });
 }
-
 handleChange (event) {
   this.setState({user: event.target.value});
 }
 
 handleClick2() {
   this.setState ()
-  this.props.firebase.auth().signOut();
+  this.props.firebase
+  .auth()
+  .signOut();
+}
+
+componentDidMount() {
+  this.props.firebase.auth().onAuthStateChanged( user => {
+  this.props.setUser(user);
+});
 }
 
   render () {
     return (
       <div>
-      <input type="text" placeholder="Create a username..." name="user-name" value={this.state.user} onChange={this.handleChange} />
-      <button type="button" onClick={this.handleClick}>Sign-In</button>
-      <button type="button" onClick={this.handleClick2}>Sign-Out</button>
+        <button type="button"
+          onClick={this.handleClick}>
+          Sign-In
+        </button>
+        <button type="button"
+          onClick={this.handleClick2}>
+          Sign-Out
+          </button>
+      <section>
+      {this.props.user ? this.setUser : "Guest"}
+      </section>
       </div>
     )
   }
