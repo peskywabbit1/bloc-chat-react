@@ -48,7 +48,7 @@ componentDidMount() {
           Sign-Out
           </button>
       <section>
-      {this.props.user ? this.props.setUser.displayName : "Guest"}
+      {this.props.user ? this.props.user.displayName : "Guest"}
       </section>
       </div>
     )
