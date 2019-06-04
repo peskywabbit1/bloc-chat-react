@@ -5,7 +5,8 @@ class MessageList extends Component {
     super(props);
     this.state = {
       messages:[],
-      activeRoomID: []
+      activeRoomID: [],
+      newMessage: ""
 
   };
 
@@ -26,13 +27,16 @@ componentDidMount() {
     /*filter results by the ID of the active room*/
 createMessages(newMessage) {
   this.messagesRef.push({
-    username: "Guest",
-    content: newMessage,
+    username:this.props.user ? this.props.user.displayName : "Guest",
+    content: this.state.newMessage,
     sentAt: this.props.firebase.database.ServerValue.TIMESTAMP,
     roomId: this.props.activeRoom.key
   });
+    this.setState({newMessage: ""});
   }
-
+handleChange (event) {
+  this.setState({newMessage: event.target.value});
+}
 
 render() {
   /*MessageList page will go here*/
@@ -40,18 +44,29 @@ render() {
     <div className="messagelist">
 
       <h3>{this.props.activeRoom ? this.props.activeRoom.name : " "}</h3>
-    <ul> {
-        this.state.messages.filter(message => message.roomId === this.props.activeRoom).map( message => {
-      return (
+      <ul> {
+        this.state.messages
+        .filter(message => message.roomId === this.props.activeRoom)
+        .map( message =>
         <li key={message.key}>
           <div>{message.username}</div>
           <div>{message.content}</div>
           <div>{message.sentAt}</div>
           <div>{message.roomId}</div>
       </li>
-    )}
-    )}
-    </ul>
+      )}
+      </ul>
+    <form onSubmit={this.createMessage}>
+      <input
+        type="text"
+        placeholder="Write message here..."
+        value={this.state.newMessage}
+        onChange={this.handleChange}
+        />
+        <input
+        type="submit"
+        value="Send" />
+        </form>
     </div>
     );
   }

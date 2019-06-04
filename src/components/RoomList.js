@@ -59,8 +59,16 @@ render () {
             </ul>
       </section>
       <form id="create-room">
-        <input type="text" placeholder="Create a room..." name="room-name" value={this.state.newRoomName} onChange={this.handleChange} />
-        <button type="button" onClick={this.handleCreateRoomSubmit}>Submit</button>
+        <input type="text"
+          placeholder="Create a room..."
+          name="room-name"
+          value={this.state.newRoomName}
+          onChange={this.handleChange}
+          />
+        <button type="button"
+          onClick={this.handleCreateRoomSubmit}>
+          Submit
+        </button>
       </form>
     </div>
     )

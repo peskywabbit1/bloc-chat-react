@@ -46,9 +46,20 @@ class App extends Component {
       <div className="App">
           <header>
             <h1 className="App-title">Bloc Chat</h1>
-            <RoomList firebase={firebase} activeRoom={this.state.activeRoom} setActiveRoom={this.setActiveRoom.bind(this)}/>
-            <MessageList firebase={firebase} activeRoom={this.state.activeRoom} setActiveRoom= {this.setActiveRoom.bind(this)}/>
-            <User firebase={firebase} user={this.state.user} setUser={this.setUser.bind(this)}/>
+            <RoomList firebase={firebase}
+            activeRoom={this.state.activeRoom}
+            setActiveRoom={this.setActiveRoom.bind(this)}
+            />
+            <MessageList firebase={firebase}
+            activeRoom={this.state.activeRoom}
+            setActiveRoom= {this.setActiveRoom.bind(this)}
+            user={this.state.user}
+            setUser={this.setUser.bind(this)}
+            />
+            <User firebase={firebase}
+            user={this.state.user}
+            setUser={this.setUser.bind(this)}
+            />
           </header>
       </div>
     );
