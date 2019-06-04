@@ -4,7 +4,13 @@ class MessageList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      messages:[],
+      messages:[
+        {
+          username: "",
+          content: "",
+          sentAt: "",
+        }
+      ],
       activeRoomID: [],
       newMessage: ""
 
@@ -12,6 +18,7 @@ class MessageList extends Component {
 
     this.messagesRef = this.props.firebase.database().ref('messages');
     this.createMessages = this.createMessages.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 componentDidMount() {
     this.messagesRef.on('child_added', snapshot => { /*snapshot is the data*/
@@ -34,15 +41,18 @@ createMessages(newMessage) {
   });
     this.setState({newMessage: ""});
   }
+
+
 handleChange (event) {
   this.setState({newMessage: event.target.value});
 }
+
+
 
 render() {
   /*MessageList page will go here*/
   return (
     <div className="messagelist">
-
       <h3>{this.props.activeRoom ? this.props.activeRoom.name : " "}</h3>
       <ul> {
         this.state.messages
@@ -53,10 +63,10 @@ render() {
           <div>{message.content}</div>
           <div>{message.sentAt}</div>
           <div>{message.roomId}</div>
-      </li>
+        </li>
       )}
       </ul>
-    <form onSubmit={this.createMessage}>
+    <form onSend={this.createMessage}>
       <input
         type="text"
         placeholder="Write message here..."
