@@ -4,14 +4,7 @@ class MessageList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      messages:[
-        {
-          username: "",
-          content: "",
-          sentAt: "",
-        }
-      ],
-      activeRoomId: [],
+      messages:[],
       newMessage: ""
 
   };
@@ -32,12 +25,13 @@ componentDidMount() {
 
 
     /*filter results by the ID of the active room*/
-createMessages(newMessage) {
+createMessages(event) {
+  event.preventDefault();
   this.messagesRef.push({
     username:this.props.user ? this.props.user.displayName : "Guest",
     content: this.state.newMessage,
     sentAt: this.props.firebase.database.ServerValue.TIMESTAMP,
-    roomId: this.props.activeRoom.key
+    roomId: this.props.activeRoom
   });
     this.setState({newMessage: ""});
   }
