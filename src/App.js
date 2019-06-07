@@ -32,7 +32,7 @@ class App extends Component {
 
   setActiveRoom(roomId) {
     this.setState({
-      activeRoom:roomId});
+      activeRoom: roomId});
   }
 
   setUser(user) {

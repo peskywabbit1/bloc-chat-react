@@ -11,7 +11,7 @@ class MessageList extends Component {
           sentAt: "",
         }
       ],
-      activeRoomID: [],
+      activeRoomId: [],
       newMessage: ""
 
   };
@@ -66,7 +66,7 @@ render() {
         </li>
       )}
       </ul>
-    <form onSend={this.createMessage}>
+    <form onSubmit={this.createMessages}>
       <input
         type="text"
         placeholder="Write message here..."
