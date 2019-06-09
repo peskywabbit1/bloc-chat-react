@@ -70,6 +70,7 @@ render() {
         <input
         type="submit"
         value="Send" />
+
         </form>
     </div>
     );

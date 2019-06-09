@@ -8,13 +8,17 @@ class RoomList extends Component {
     super(props);
     this.state = {
       rooms: [],
-      newRoomName: ""
+      newRoomName: "",
+      deleteRoomName: ""
     }
     this.roomsRef = this.props.firebase.database().ref('rooms');
 
     this.createRoom = this.createRoom.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.handleCreateRoomSubmit = this.handleCreateRoomSubmit.bind(this);
+    this.createRoomSubmit = this.createRoomSubmit.bind(this);
+    this.deleteRoom =this.deleteRoom.bind(this);
+
+
   }
 //set up real-time event listeners for the database
 componentDidMount() {
@@ -25,6 +29,8 @@ componentDidMount() {
     });
   }
 
+
+
 createRoom(newRoomName) {
   let newRoom = {
     name: newRoomName
@@ -33,14 +39,45 @@ createRoom(newRoomName) {
   this.roomsRef.push(newRoom)
 }
 
+createRoomSubmit(event) {
+  this.createRoom(this.state.newRoomName);
+  this.setState({newRoomName: ""});
+}
+
 handleChange(event) {
   this.setState({newRoomName: event.target.value});
 }
 
-handleCreateRoomSubmit(event) {
-  this.createRoom(this.state.newRoomName)
-  this.setState({newRoomName: ""})
+deleteRoom(id) {
+  this.roomsRef.child(id).removeValue();
 }
+/*
+deleteRoom (deleteRoomName) {
+  let deleteRoom = {
+    name: deleteRoomName
+  };
+}
+
+deleteRoomSubmit(event) {
+this.deleteRoom(this.state.deleteRoomName);
+this.setState({deleteRoomName: ""});
+}
+
+handleChangeDelete (roomId) {
+this.setState(prevState => {
+  const updatedRooms = prevState.rooms.map(room => {
+    if (this.state.rooms.id === roomId ) {
+      roomId = "";
+    }
+    return room.key;
+  })
+  return {
+    rooms : updatedRooms
+   }
+ })
+}
+*/
+//handleChangeDelete
 
 render () {
   return (
@@ -66,9 +103,21 @@ render () {
           onChange={this.handleChange}
           />
         <button type="button"
-          onClick={this.handleCreateRoomSubmit}>
+          onClick={this.createRoomSubmit}>
           Submit
         </button>
+        <br/>
+        <input type="text"
+        placeholder = "Delete a room..."
+        name="room-name"
+        value=
+        onChangeDelete={this.deleteRoom}
+        />
+        <button type="button"
+        onClickDelete={this.deleteRoom}>
+        Delete
+        </button>
+
       </form>
     </div>
     )
