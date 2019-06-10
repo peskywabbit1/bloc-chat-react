@@ -1,111 +1,90 @@
 import React, {Component} from 'react';
 
 
+
+
 class RoomList extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       rooms: [],
-      value: '',
-      currentRoom: ''
+      newRoomName: "",
+      deleteRoom: ""
     };
     this.roomsRef = this.props.firebase.database().ref('rooms');
-
+    this.createRoom = this.createRoom.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.createRoomSubmit = this.createRoomSubmit.bind(this);
+    this.deleteRoom = this.deleteRoom.bind(this);
   }
-
   componentDidMount () {
-    this.roomsRef.on('child_added', snapshot => {
-      const room = snapshot.val();
-      room.key = snapshot.key;
-      this.setState({rooms: this.state.rooms.concat(room )});
-    });
-  this.roomsRef.on('child_changed', snapshot => {
-      const room = snapshot.val();
-      room.key = snapshot.key;
-      let oldRoomList = this.state.rooms;
-      let index = oldRoomList.findIndex(rooms => rooms.key === room.key)
-      oldRoomList[index]=room;
-      this.setState({rooms: oldRoomList})
-    });
-  }
-
-  handleChange(e) {
-    e.preventDefault();
-    let newChatRoom = e.target.value
-    this.setState({value: newChatRoom});
-  }
-
-  createRoom(e) {
-    e.preventDefault();
-    let newRoomName = this.state.value;
-    this.roomsRef.push({
-      name: newRoomName
-    })
-    this.setState({value: ''});
-
-  }
-
-  renameRoom(e) {
-    e.preventDefault();
-    let updatedName = {key: this.props.activeRoomId,
-                   name: window.prompt("Please enter a new room name")};
-    console.log(this.props.activeRoomId)
-    console.log(updatedName);
-    this.roomsRef.child(this.props.activeRoomId).update({name: updatedName.name});
-    this.props.updateRoom(updatedName);
-    console.log(this.props.activeRoom)
-
-
-  }
-
-  /*componentWillReceiveProps(nextProps) {
-    if (this.props.activeRoom !== nextProps.activeRoom) {
-      console.log(nextProps.activeRoom);
-      console.log(this.props.activeRoom);
-  }
-}*/
-
-  deleteRoom(e) {
-    e.preventDefault();
-    const updatedRooms = this.state.rooms.filter(room => room.key !== this.props.activeRoomId)
-    this.props.updateRoom('');
-    this.setState({rooms: updatedRooms})
-    this.roomsRef.child(this.props.activeRoomId).remove()
-  }
+      this.roomsRef.on('child_added', snapshot => {
+        const room = snapshot.val();
+        room.key = snapshot.key;
+        this.setState({rooms: this.state.rooms.concat(room )});
+      });
+    this.roomsRef.on('child_removed', snapshot => {
+        const room = snapshot.val();
+        room.key = snapshot.key;
+        this.setState({rooms: this.state.rooms.filter(room => room.key !== snapshot.key)})
+      });
+    }
+createRoom(newRoomName) {
+  let newRoom = {
+    name: newRoomName
+  };
+  this.roomsRef.push(newRoom);
+}
+createRoomSubmit(event) {
+  this.createRoom(this.state.newRoomName);
+  this.setState({newRoomName: ""});
+}
+handleChange(event) {
+  this.setState({newRoomName: event.target.value});
+}
+deleteRoom(roomkey) {
+  const room = this.props.firebase.database().ref('rooms/' + roomkey);
+  room.remove();
+  console.log(roomkey);
+}
 
 
 
-  render() {
-    return (
-      <div className="room-list">
-        <ul className="chat-room-list">
-          <li className="chat-title">Chat Rooms:</li>
+render () {
+  return (
+    <div>
+      <section>
+      <ul>
         {
-          this.state.rooms.map((room,index) =>
-               <li key={index} className="room-number" value={room.key} onClick={()=>this.props.updateRoom(room)}>{room.name}</li>
-          )
-        }
-        </ul>
-        <form className="chat-form" onSubmit={(e)=>this.createRoom(e)}>
-          <div>
-            <label>
-              <div>Add Chat Room:</div>
-              <div>
-                <input type="text" value={this.state.value} placeholder="Chat Room Name" onChange={(e)=>this.handleChange(e)} />
-                <input className="submit-button" type="submit" value="Add"/>
-              </div>
-            </label>
-          </div>
-        </form>
-        <div className="room-name">
-            <button className="renameRoomButton" onClick={(e)=>this.renameRoom(e)}>Rename Current Room</button>
-        </div>
-        <div className="delete-room">
-            <button className="deleteRoomButton" onClick={(e)=>this.deleteRoom(e)}>Delete Current Room</button>
-        </div>
-      </div>
-    );
+          this.state.rooms.map(room => (
+              <li key={room.key}
+                onClick={ () => this.props.setActiveRoom(room.key) }>
+                {room.name}
+                <button className="deleteRoom"
+                  onClick= { (e) =>
+                  {this.deleteRoom(room.key)} }>Delete
+                </button>
+              </li>
+              )
+            )
+          }
+          </ul>
+      </section>
+      <form id="create-room">
+        <input type="text"
+          placeholder="Create a room..."
+          name="room-name"
+          value={this.state.newRoomName}
+          onChange={this.handleChange}
+          />
+        <button type="button"
+          onClick={this.createRoomSubmit}>
+          Submit
+        </button>
+      </form>
+    </div>
+    )
   }
 }
+
 export default RoomList;

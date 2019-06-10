@@ -16,7 +16,7 @@ class User extends Component {
 handleClick() {
    this.setState ()
    const provider = new this.props.firebase.auth.GoogleAuthProvider();
-   this.props.firebase.auth().signInWithPopup( provider );
+   this.props.firebase.auth().signInWithPopup( provider )
 }
 
 handleChange (event) {

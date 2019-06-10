@@ -18,15 +18,15 @@ componentDidMount() {
       const message = snapshot.val();/*value of text */
       message.key = snapshot.key;/* snapshot.key is the data key */
       this.setState({ messages: this.state.messages.concat( message )}, () => {
-        this.props.activeRoom.setState(this.props.activeRoom);
+        this.props.setActiveRoom(this.props.activeRoom);
   });
   });
   }
 
 
     /*filter results by the ID of the active room*/
-createMessages(event) {
-  event.preventDefault();
+createMessages(newMessage) {
+  newMessage.preventDefault();
   this.messagesRef.push({
     username:this.props.user ? this.props.user.displayName : "Guest",
     content: this.state.newMessage,
@@ -70,7 +70,6 @@ render() {
         <input
         type="submit"
         value="Send" />
-
         </form>
     </div>
     );
