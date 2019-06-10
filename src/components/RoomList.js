@@ -10,56 +10,39 @@ class RoomList extends Component {
       rooms: [],
       newRoomName: "",
       deleteRoom: ""
-    }
+    };
     this.roomsRef = this.props.firebase.database().ref('rooms');
-
     this.createRoom = this.createRoom.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.createRoomSubmit = this.createRoomSubmit.bind(this);
-    this.deleteRoom =this.deleteRoom.bind(this);
-
-
+    this.deleteRoom = this.deleteRoom.bind(this);
   }
-//set up real-time event listeners for the database
 componentDidMount() {
   this.roomsRef.on('child_added', snapshot => {
     const room = snapshot.val();
     room.key = snapshot.key;
-    this.setState({ rooms: this.state.rooms.concat( room ) })
+    this.setState({ rooms: this.state.rooms.concat( room ) });
     });
   }
-
-
-
 createRoom(newRoomName) {
   let newRoom = {
     name: newRoomName
   };
-  // Save to database
-  this.roomsRef.push(newRoom)
+  this.roomsRef.push(newRoom);
 }
-
 createRoomSubmit(event) {
   this.createRoom(this.state.newRoomName);
   this.setState({newRoomName: ""});
 }
-
 handleChange(event) {
   this.setState({newRoomName: event.target.value});
 }
-/*
-deleteRoom(id) {
-  this.roomsRef.child(id).removeValue();
-}
-*/
-deleteRoom (event) {
-this.roomsRef.child(deleteRoom).remove(snapshot.key);
+deleteRoom(roomkey) {
+  const room = this.props.firebase.database().ref('rooms/' + roomkey);
+  room.remove();
 }
 
-handleDelete deleteRoom(DataSnapshot dataSnapshot) {
-  removedPost = dataSnapshot.getValue(Post.class);
-    .out.println("The Room titled " + removedPost.title + " has been deleted");
-  }
+
 /*
   handleDelete(event) {
     this.deleteRoom(this.state.deleteRoom);
@@ -105,17 +88,18 @@ render () {
   return (
     <div>
       <section>
-        <ul>
-          {
-            this.state.rooms.map(room => (
-                <li key={room.key}
-                onClick={ () => this.props.setActiveRoom(room.key) }>
-                {room.name}
-                </li>
-                )
+      <ul>
+        {
+          this.state.rooms.map(room => (
+              <li key={room.key}
+              onClick={ () => this.props.setActiveRoom(room.key) }>
+              {room.name}
+              <button onclick={this.deleteRoom.bind(this)}>Delete</button>
+              </li>
               )
-            }
-            </ul>
+            )
+          }
+          </ul>
       </section>
       <form id="create-room">
         <input type="text"
@@ -128,18 +112,6 @@ render () {
           onClick={this.createRoomSubmit}>
           Submit
         </button>
-        <br/>
-        <input type="text"
-        placeholder = "Delete a room..."
-        name="room-name"
-        value={this.state.newRoomName}
-        onChangeDelete={this.deleteRoom}
-        />
-        <button type="button"
-        onClickDelete={this.handleDelete}>
-        Delete
-        </button>
-
       </form>
     </div>
     )
