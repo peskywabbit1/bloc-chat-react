@@ -18,7 +18,7 @@ componentDidMount() {
       const message = snapshot.val();/*value of text */
       message.key = snapshot.key;/* snapshot.key is the data key */
       this.setState({ messages: this.state.messages.concat( message )}, () => {
-        this.props.setActiveRoom(this.props.activeRoom);
+        this.props.activeRoom.setState(this.props.activeRoom);
   });
   });
   }
