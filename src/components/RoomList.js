@@ -9,7 +9,7 @@ class RoomList extends Component {
     this.state = {
       rooms: [],
       newRoomName: "",
-      deleteRoomName: ""
+      deleteRoom: ""
     }
     this.roomsRef = this.props.firebase.database().ref('rooms');
 
@@ -47,11 +47,34 @@ createRoomSubmit(event) {
 handleChange(event) {
   this.setState({newRoomName: event.target.value});
 }
-
+/*
 deleteRoom(id) {
   this.roomsRef.child(id).removeValue();
 }
+*/
+deleteRoom (event) {
+this.roomsRef.child(deleteRoom).remove(snapshot.key);
+}
+
+handleDelete deleteRoom(DataSnapshot dataSnapshot) {
+  removedPost = dataSnapshot.getValue(Post.class);
+    .out.println("The Room titled " + removedPost.title + " has been deleted");
+  }
 /*
+  handleDelete(event) {
+    this.deleteRoom(this.state.deleteRoom);
+    deleteRoom: event.target.value);
+  }
+
+  this.roomsRef.remove('child_removed', snapshot => {
+    const room = snapshot.val();
+    room.key = snapshot.key;
+    this.setState({ rooms: this.state.rooms.concat( room ) })
+    });
+  }
+
+
+
 deleteRoom (deleteRoomName) {
   let deleteRoom = {
     name: deleteRoomName
@@ -78,7 +101,6 @@ this.setState(prevState => {
 }
 */
 //handleChangeDelete
-
 render () {
   return (
     <div>
@@ -110,11 +132,11 @@ render () {
         <input type="text"
         placeholder = "Delete a room..."
         name="room-name"
-        value=
+        value={this.state.newRoomName}
         onChangeDelete={this.deleteRoom}
         />
         <button type="button"
-        onClickDelete={this.deleteRoom}>
+        onClickDelete={this.handleDelete}>
         Delete
         </button>
 
